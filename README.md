@@ -13,12 +13,14 @@ Enviroment and tools:
  
  Steps to run and debug:
  
-    - Instale o Nodejs e as dependências do projeto digitando o seguinte comando no seu terminal:
-        
-        npm install
+    - Instale o Nodejs;
 
     - Navegue até o diretório raiz do projeto utilizando o comando:
 
         cd <endereco do diretório>
+    
+    - Instale as dependências do projeto digitando o seguinte comando no seu terminal:
+        
+        npm install
 
     - Então digite "npm start" e o seu navegador deve abrir uma página onde o aplicativo estará rodando;
