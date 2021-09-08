@@ -3,6 +3,7 @@ Project's Name: Onboarding de Guilherme Khoury
 Project's Description: Aprendendo a usar git
 
 Enviroment and tools: 
+
     - Nodejs v12.17.0;
     - Xcode v11.6;
     - Typescript;
@@ -11,6 +12,7 @@ Enviroment and tools:
     - Prettier (extensão do VSCode);
  
  Steps to run and debug:
+ 
     - Instale o Nodejs e as dependências do projeto digitando o seguinte comando no seu terminal:
         
         npm install
