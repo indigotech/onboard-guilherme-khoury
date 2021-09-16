@@ -42,25 +42,28 @@ function App() {
 
         <h1>Bem Vindo(a) à Taqtile</h1>
         <form>
-          <label>
-            E-mail:
-          </label>
-          <input 
-            id="login"
-            onChange = {event => setLogin(event.target.value)}/>
-
-          <div></div>
-
-          <label>
-            Senha:
-          </label>
-          <input 
-            id="senha"
-            onChange = {event => setPassword(event.target.value)}/>
-
-          <div></div>
-  
-          <button type="submit" onClick = {() => Validation(login, password)}>Entrar</button>
+          <div>
+            <label>
+              E-mail:
+            </label>
+            <input 
+              id="login"
+              onChange = {event => setLogin(event.target.value)}/>
+          </div>
+          
+          <div>
+            <label>
+              Senha:
+            </label>
+            <input 
+              id="senha"
+              onChange = {event => setPassword(event.target.value)}/>
+          </div>
+          
+          <div>
+            <button type="submit" onClick = {() => Validation(login, password)}>Entrar</button>
+          </div>
+          
         </form>
 
       </header>
@@ -68,8 +71,4 @@ function App() {
   );
 }
 
-
 export default App;
-
-
-
