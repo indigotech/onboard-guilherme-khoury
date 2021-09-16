@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ExchangeRates from './Index'
 
 function App() {
 
@@ -65,9 +66,11 @@ function App() {
           </div>
           
         </form>
-
       </header>
+      <ExchangeRates/>
     </div>
+
+
   );
 }
 
