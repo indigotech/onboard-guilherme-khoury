@@ -5,6 +5,7 @@ import { Validation } from './Validations';
 import { LOGIN_MUTATION } from './LoginMutation';
 import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 
 interface LoginMutation {
@@ -19,6 +20,7 @@ function LoginScreen () {
   const [password, setPassword] = useState("");
   const [loginSubmission, { loading }] = useMutation<LoginMutation>(LOGIN_MUTATION);
   const history = useHistory();
+  const [isLoading, setLoading] = useState(false);
 
   if(loading){
     console.log('Submetendo...');
@@ -26,7 +28,7 @@ function LoginScreen () {
 
   const loginMutation = async (login:string, password: string) => {
     if (Validation(login, password)){
-      try{
+      try{ 
         const resposta = await loginSubmission({
           variables: {
             email: login,
@@ -46,9 +48,11 @@ function LoginScreen () {
 
   async function HandleSubmit(e:any){
     e.preventDefault();
+    setLoading(true);
     if(await loginMutation(login, password)){
         history.push("/newpage");
     }
+    setLoading(false);
   }
 
   return (
@@ -78,7 +82,9 @@ function LoginScreen () {
           
           <div>
             <button type="submit"
-              onClick = {HandleSubmit}>Entrar</button>
+              onClick = {HandleSubmit}
+              hidden={isLoading}>Entrar</button>
+            <ClipLoader loading={isLoading}/>
           </div>
           
         </form>
