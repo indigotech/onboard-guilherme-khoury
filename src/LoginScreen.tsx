@@ -50,7 +50,7 @@ function LoginScreen () {
     e.preventDefault();
     setLoading(true);
     if(await loginMutation(login, password)){
-        history.push("/newpage");
+        history.push("/userslist");
     }
     setLoading(false);
   }
