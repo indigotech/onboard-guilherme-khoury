@@ -2,14 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './ReportWebVitals';
+import reportWebVitals from '../ReportWebVitals';
 import { ApolloProvider,
   ApolloClient,
-  InMemoryCache } from "@apollo/client";
-import { BrowserRouter } from 'react-router-dom';
+  InMemoryCache,
+  createHttpLink } from "@apollo/client";
+import {setContext} from '@apollo/client/link/context';
 
-const client = new ApolloClient({
+const httpLink = createHttpLink({
   uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
+});
+
+const authenticationLink = setContext((_,{headers}) => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `${token}` : "",
+    }
+  }
+})
+ 
+const client = new ApolloClient({
+  link: authenticationLink.concat(httpLink),
   cache: new InMemoryCache()
 });
 

@@ -1,15 +1,20 @@
+import { useQuery } from '@apollo/client';
 import React from 'react';
 import './App.css';
+import { USERS_QUERY } from '../GraphQL/UsersQuery';
+
 
 export default function UsersList(){
 
-    const users = [
-        {name: 'Taqtile', email: 'admin@taqtile.com.br'},
-        {name: 'Guilherme', email: 'gui.khoury@gmail.com'},
-        {name: 'João', email: 'joão@gmail.com'},
-        {name: 'Maria', email: 'maria@gmail.com'},
-        {name: 'Carlos', email: 'carlos@gmail.com'}
-    ];
+    const {loading, error, data} = useQuery(USERS_QUERY);
+
+    if (loading){
+        return 'Carregando...';
+    }
+
+    if (error){
+        return 'Erro! ${error.message}';
+    }
 
     return(
     <div className="App">
@@ -20,10 +25,10 @@ export default function UsersList(){
                     <th>Nome</th>
                     <th>E-mail</th>
                 </tr>
-                {users.map(users => (
+                {data.users.nodes.map (user=> (
                     <tr>
-                        <td key={users.name}>{users.name}</td>
-                        <td key={users.name}>{users.email}</td>
+                        <td key={user.id}>{user.name}</td>
+                        <td key={user.id}>{user.email}</td>
                     </tr>
                 ))}
             </table>
