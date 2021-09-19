@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { USERS_QUERY } from '../GraphQL/UsersQuery';
+import { USERS_QUERY } from './UsersQuery';
 
 
 export default function UsersList(){
