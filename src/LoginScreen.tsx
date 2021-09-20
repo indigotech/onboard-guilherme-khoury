@@ -5,6 +5,7 @@ import { loginValidation } from './Validations';
 import { LOGIN_MUTATION } from './LoginMutation';
 import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
+
 import ClipLoader from 'react-spinners/ClipLoader';
 
 interface LoginMutation {
@@ -31,7 +32,7 @@ function loginScreen() {
         localStorage.setItem('token', resposta.data?.login?.token);
         return true;
       } catch (error) {
-        alert(error);
+        alert(error.message)
         return false;
       }
     }
