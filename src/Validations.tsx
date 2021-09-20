@@ -1,5 +1,5 @@
 
-export const Validation = (login:string, password:string) => {
+export const LoginValidation = (login:string, password:string) => {
 
     const loginPattern = /\S+@\S+\.com/;
     const passwordPattern1 = /\S*[A-Za-z]+\S*\d+\S*/;
@@ -9,7 +9,7 @@ export const Validation = (login:string, password:string) => {
       alert("Por favor, preencha o campo 'E-mail'!");
       return false;
     }
-    if (login.match(loginPattern) === null){
+    else if (login.match(loginPattern) === null){
       alert("Por favor, obedeça o formato '####@####.com'!");
       return false;
     }
@@ -27,3 +27,40 @@ export const Validation = (login:string, password:string) => {
     }
     return true;
   }; 
+
+export const NewUserValidation = (name:string, email:string, phone:string, birthDate:string, role:string)=> {
+
+  const emailPattern = /\S+@\S+\.com/;
+  const alertMessage = "Por favor, preencha todos os campos!";
+
+  if (name ===""){
+    alert(alertMessage);
+  }
+
+  if (email === ""){
+    alert(alertMessage);
+  }
+
+  if (email.match(emailPattern) === null){
+    alert("Por favor, preencha o campo E-mail com o formato ####@####.com");
+    return false;
+  }
+
+  if (phone === ""){
+    alert(alertMessage);
+  }
+
+  if (phone.length<8){
+    alert("Por favor, preenche com um número de telefone válido!");
+  }
+
+  if (birthDate === ""){
+    alert(alertMessage);
+  }
+
+  if (role === ""){
+    alert(alertMessage);
+  }
+
+  return true;
+}

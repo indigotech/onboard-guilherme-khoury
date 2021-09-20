@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
-import { Validation } from './Validations';
+import { LoginValidation } from './Validations';
 import { LOGIN_MUTATION } from './LoginMutation';
 import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader';
-
 
 interface LoginMutation {
   login: {
@@ -26,7 +25,7 @@ function LoginScreen () {
   }
 
   const loginMutation = async (login:string, password: string) => {
-    if (Validation(login, password)){
+    if (LoginValidation(login, password)){
       try{ 
         const resposta = await loginSubmission({
           variables: {

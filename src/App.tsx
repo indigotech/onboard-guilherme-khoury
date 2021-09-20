@@ -4,6 +4,7 @@ import {BrowserRouter as Router,
   Switch} from 'react-router-dom';
 import LoginScreen from './LoginScreen';
 import UsersList from './UsersList';
+import NewUser from './AddUserScreen';
 
 function App(){
   return(
@@ -11,6 +12,7 @@ function App(){
       <Switch>
         <Route exact path="/" component={LoginScreen} />
         <Route exact path="/userslist" component={UsersList}/>
+        <Route exact path="/newuser" component={NewUser}/>
       </Switch>
     </Router>
   )}
