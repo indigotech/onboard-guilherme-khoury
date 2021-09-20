@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { loginValidation } from './Validations';
 import { LOGIN_MUTATION } from './LoginMutation';
@@ -32,13 +31,13 @@ function loginScreen() {
         localStorage.setItem('token', resposta.data?.login?.token);
         return true;
       } catch (error) {
-        alert(error.m);
+        alert(error);
         return false;
       }
     }
   };
 
-  async function handleSubmit(e: any) {
+  async function HandleSubmit(e: any) {
     e.preventDefault();
     if (await loginMutation(login, password)) {
       history.push('/userslist');
@@ -61,7 +60,7 @@ function loginScreen() {
           </div>
 
           <div>
-            <button type='submit' onClick={handleSubmit} hidden={loading}>
+            <button type='submit' onClick={HandleSubmit} hidden={loading}>
               Entrar
             </button>
             <ClipLoader loading={loading} />
