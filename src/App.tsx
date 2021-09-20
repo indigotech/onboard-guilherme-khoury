@@ -1,40 +1,48 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Validation } from './Validations';
+import { LOGIN_MUTATION } from './LoginMutation';
+import { useMutation } from '@apollo/client';
+
+interface LoginMutation {
+  login: {
+    token: string;
+  }
+} 
 
 function App() {
 
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [loginSubmission, { loading }] = useMutation<LoginMutation>(LOGIN_MUTATION);
 
-  const Validation = (login:string, password:string) => {
+  if(loading){
+    console.log('Submetendo...');
+  }
 
-    const loginPattern = /\S+@\S+\.com/;
-    const passwordPattern1 = /\S*[A-Za-z]+\S*\d+\S*/;
-    const passwordPattern2 = /\S*\d+\S*[A-Za-z]+\S*/;
-    
-    if (login === ""){
-      alert("Por favor, preencha o campo 'E-mail'!");
-      return false;
+  const loginMutation = async (login:string, password: string) => {
+    if (Validation(login, password)){
+      try{
+        const resposta = await loginSubmission({
+          variables: {
+            email: login,
+            password: password,
+          },
+        });
+        console.log(resposta);
+        localStorage.setItem('token', resposta.data?.login?.token);
+      }
+      catch(error){
+        alert(error);
+      }
     }
-    if (login.match(loginPattern) === null){
-      alert("Por favor, obedeça o formato '####@####.com'!");
-      return false;
-    }
-    if (password === ""){
-      alert("Por favor, preencha o campo 'Senha'!");
-      return false;
-    }
-    if (password.length < 7){
-      alert("A senha deve conter pelo menos 7 caracteres!");
-      return false;
-    }
-    if (password.match(passwordPattern1) === null && password.match(passwordPattern2) === null){
-      alert("A senha deve conter pelo menos 1 letra e 1 número!");
-      return false;
-    }
-    return true;
-  }; 
+  }
+
+  async function HandleSubmit(e:any){
+    e.preventDefault();
+    await loginMutation(login, password);
+  }
 
   return (
     <div className="App">
@@ -57,16 +65,18 @@ function App() {
             </label>
             <input 
               id="senha"
+              type = "password"
               onChange = {event => setPassword(event.target.value)}/>
           </div>
           
           <div>
-            <button type="submit" onClick = {() => Validation(login, password)}>Entrar</button>
+            <button type="submit"
+              onClick = {HandleSubmit}>Entrar</button>
           </div>
           
         </form>
-
       </header>
+      
     </div>
   );
 }
