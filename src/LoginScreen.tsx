@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Validation } from './Validations';
+import { loginValidation } from './Validations';
 import { LOGIN_MUTATION } from './LoginMutation';
 import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
@@ -14,20 +14,15 @@ interface LoginMutation {
   }
 } 
 
-function LoginScreen () {
+function loginScreen () {
 
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [loginSubmission, { loading }] = useMutation<LoginMutation>(LOGIN_MUTATION);
   const history = useHistory();
-  const [isLoading, setLoading] = useState(false);
-
-  if(loading){
-    console.log('Submetendo...');
-  }
 
   const loginMutation = async (login:string, password: string) => {
-    if (Validation(login, password)){
+    if (loginValidation(login, password)){
       try{ 
         const resposta = await loginSubmission({
           variables: {
@@ -35,7 +30,6 @@ function LoginScreen () {
             password: password,
           },
         });
-        console.log(resposta);
         localStorage.setItem('token', resposta.data?.login?.token);
         return true;
       }
@@ -46,13 +40,11 @@ function LoginScreen () {
     }
   }
 
-  async function HandleSubmit(e:any){
+  async function handleSubmit(e:any){
     e.preventDefault();
-    setLoading(true);
     if(await loginMutation(login, password)){
         history.push("/newpage");
     }
-    setLoading(false);
   }
 
   return (
@@ -82,9 +74,9 @@ function LoginScreen () {
           
           <div>
             <button type="submit"
-              onClick = {HandleSubmit}
-              hidden={isLoading}>Entrar</button>
-            <ClipLoader loading={isLoading}/>
+              onClick = {handleSubmit}
+              hidden={loading}>Entrar</button>
+            <ClipLoader loading={loading}/>
           </div>
           
         </form>
@@ -94,4 +86,4 @@ function LoginScreen () {
   );
 }
 
-export default LoginScreen;
+export default loginScreen;
