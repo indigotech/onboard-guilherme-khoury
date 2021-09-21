@@ -20,7 +20,6 @@ export default function usersList() {
       limit: limit,
     },
   });
-
   const history = useHistory();
 
   if (loading) {

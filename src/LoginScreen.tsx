@@ -12,7 +12,7 @@ interface LoginMutation {
   }
 } 
 
-function LoginScreen () {
+function loginScreen () {
 
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -93,4 +93,4 @@ function LoginScreen () {
   );
 }
 
-export default LoginScreen;
+export default loginScreen;
