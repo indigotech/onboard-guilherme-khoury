@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { LoginValidation } from './Validations';
+import { loginValidation } from './Validations';
 import { LOGIN_MUTATION } from './LoginMutation';
 import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
@@ -25,7 +25,7 @@ function LoginScreen () {
   }
 
   const loginMutation = async (login:string, password: string) => {
-    if (LoginValidation(login, password)){
+    if (loginValidation(login, password)){
       try{ 
         const resposta = await loginSubmission({
           variables: {

@@ -1,37 +1,20 @@
 import React, { useState } from 'react';
-import { NewUserValidation } from './Validations';
+import { newUserValidation } from './Validations';
 
 export default function newUser() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [role, setRole] = useState('');
 
   const todayDate = new Date();
-  const year = todayDate.getFullYear().toString();
-  const month = todayDate.getMonth() + 1;
-
-  let monthString = '';
-  if (month < 10) {
-    monthString = '0'.concat(month.toString());
-  } else {
-    monthString = month.toString();
-  }
-
-  const day = todayDate.getDate();
-  let dayString = '';
-  if (day < 10) {
-    dayString = '0'.concat(day.toString());
-  } else {
-    dayString = day.toString();
-  }
-
-  const maxDate = year.concat('-', monthString, '-', dayString);
+  const maxDate = todayDate.toISOString().split('T')[0];
 
   function handleSubmit(e: any) {
     e.preventDefault();
-    NewUserValidation(name, email, phone, birthDate, role);
+    newUserValidation(name, email, password, phone, birthDate, role);
   }
 
   return (
@@ -48,6 +31,10 @@ export default function newUser() {
             <input type='email' id='email' onChange={(e) => setEmail(e.target.value)} placeholder='####@####.com' />
           </div>
           <div>
+            <label className='form-label'>Senha:</label>
+            <input type='password' id='password' onChange={(e) => setPassword(e.target.value)} />
+          </div>
+          <div>
             <label className='form-label'>Telefone:</label>
             <input type='number' id='phone' onChange={(e) => setPhone(e.target.value)} />
           </div>
@@ -56,8 +43,11 @@ export default function newUser() {
             <input type='date' id='birthDate' max={maxDate} onChange={(e) => setBirthDate(e.target.value)} />
           </div>
           <div>
-            <label className='form-label'> Papel:</label>
-            <input type='text' id='role' onChange={(e) => setRole(e.target.value)} />
+            <label className='form-label'> Função:</label>
+            <select id='role' onChange={(e) => setRole(e.target.value)}>
+              <option value='admin'>Administrador</option>
+              <option value='user'>Usuário</option>
+            </select>
           </div>
           <div>
             <button type='submit' onClick={handleSubmit}>
