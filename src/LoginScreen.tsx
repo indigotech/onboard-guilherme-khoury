@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { loginValidation } from './Validations';
 import { LOGIN_MUTATION } from './LoginMutation';
@@ -28,11 +27,10 @@ function loginScreen() {
             password: password,
           },
         });
-        console.log(resposta);
         localStorage.setItem('token', resposta.data?.login?.token);
         return true;
       } catch (error) {
-        alert(error.m);
+        alert(error);
         return false;
       }
     }
