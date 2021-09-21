@@ -1,8 +1,8 @@
-export const Validation = (login: string, password: string) => {
-  const loginPattern = /\S+@\S+\.com/;
-  const passwordPattern1 = /\S*[A-Za-z]+\S*\d+\S*/;
-  const passwordPattern2 = /\S*\d+\S*[A-Za-z]+\S*/;
+const loginPattern = /\S+@\S+\.com/;
+const passwordPattern1 = /\S*[A-Za-z]+\S*\d+\S*/;
+const passwordPattern2 = /\S*\d+\S*[A-Za-z]+\S*/;
 
+export const Validation = (login: string, password: string) => {
   if (login === '') {
     alert("Por favor, preencha o campo 'E-mail'!");
     return false;
