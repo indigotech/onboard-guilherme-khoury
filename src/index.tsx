@@ -3,13 +3,26 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './ReportWebVitals';
-import { ApolloProvider,
-  ApolloClient,
-  InMemoryCache } from "@apollo/client";
+import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+
+const httpLink = createHttpLink({
+  uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
+});
+
+const authenticationLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ?? '',
+    },
+  };
+});
 
 const client = new ApolloClient({
-  uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
-  cache: new InMemoryCache()
+  link: authenticationLink.concat(httpLink),
+  cache: new InMemoryCache(),
 });
 
 ReactDOM.render(
@@ -18,7 +31,7 @@ ReactDOM.render(
       <App />
     </ApolloProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

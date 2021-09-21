@@ -28,8 +28,12 @@
   color: #61dafb;
 }
 
-.Form-input{
+.Form-input {
   margin-bottom: 2em;
+}
+
+.Users-table {
+  border-spacing: 30px;
 }
 
 @keyframes App-logo-spin {
