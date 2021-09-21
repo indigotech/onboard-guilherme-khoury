@@ -3,27 +3,50 @@ import React, { useState } from 'react';
 import './App.css';
 import { USERS_QUERY } from './UsersQuery';
 import ReactPaginate from 'react-paginate';
+import ClipLoader from 'react-spinners/ClipLoader';
+
+const limit = 5;
+const initialPage = 0;
 
 export default function usersList() {
-  const { loading, error, data } = useQuery(USERS_QUERY);
-  const [currentPage, setCurrentPage] = useState(0);
-  const dataPerPage = 5;
-  const offset = currentPage * dataPerPage;
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const offset = currentPage * limit;
+  const { loading, error, data, fetchMore } = useQuery(USERS_QUERY, {
+    variables: {
+      offset: offset,
+      limit: limit,
+    },
+  });
 
   if (loading) {
-    return 'Carregando...';
+    return (
+      <div className="App">
+        <header className="App-header">
+          <ClipLoader/>
+        </header>
+      </div>
+    );
   }
 
   if (error) {
-    return 'Erro!' + `${error.message}`;
+    return `Error! ${error.message}`;
   }
 
   const totalData = data.users.nodes;
-  const currentData = totalData.slice(offset, offset + dataPerPage);
-  const pageCount = Math.ceil(totalData.length / dataPerPage);
+  const pageCount = Math.ceil(data.users.count / limit);
 
-  function handlePageClick({ selected: selectedPage }) {
-    setCurrentPage(selectedPage);
+  async function handlePageClick({ selected: selectedPage }) {
+    try {
+      await fetchMore({
+        variables: {
+          offset: totalData.length,
+          limit: limit,
+        },
+      });
+      setCurrentPage(selectedPage);
+    } catch (error) {
+      alert(error);
+    }
   }
 
   return (
@@ -35,7 +58,7 @@ export default function usersList() {
             <th>Nome</th>
             <th>E-mail</th>
           </tr>
-          {currentData.map((user) => (
+          {totalData.map((user) => (
             <tr key={user.id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
@@ -47,11 +70,11 @@ export default function usersList() {
           nextLabel={'Next →'}
           pageCount={pageCount}
           onPageChange={handlePageClick}
+          pageRangeDisplayed={2}
+          marginPagesDisplayed={1}
           containerClassName={'pagination'}
-          previousLinkClassName={'pagination__link'}
-          nextLinkClassName={'pagination__link'}
-          disabledClassName={'pagination__link--disabled'}
-          activeClassName={'pagination__link--active'}
+          disableInitialCallback={true}
+          initialPage={currentPage}
         />
       </header>
     </div>

@@ -27,7 +27,6 @@ function loginScreen() {
             password: password,
           },
         });
-        console.log(resposta);
         localStorage.setItem('token', resposta.data?.login?.token);
         return true;
       } catch (error) {
