@@ -36,7 +36,7 @@ function loginScreen() {
     }
   };
 
-  async function HandleSubmit(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
     if (await loginMutation(login, password)) {
       history.push('/userslist');
@@ -59,7 +59,7 @@ function loginScreen() {
           </div>
 
           <div>
-            <button type='submit' onClick={HandleSubmit} hidden={loading}>
+            <button type='submit' onClick={handleSubmit} hidden={loading}>
               Entrar
             </button>
             <ClipLoader loading={loading} />
