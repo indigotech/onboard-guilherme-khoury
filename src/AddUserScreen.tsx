@@ -1,5 +1,9 @@
+import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
+import { ClipLoader } from 'react-spinners';
+import { CREATE_USER } from './AddUserMutation';
 import { newUserValidation } from './Validations';
+import { useHistory } from 'react-router-dom';
 
 export default function newUser() {
   const [name, setName] = useState('');
@@ -12,9 +16,55 @@ export default function newUser() {
   const todayDate = new Date();
   const maxDate = todayDate.toISOString().split('T')[0];
 
-  function handleSubmit(e: any) {
+  const history = useHistory();
+  const [userSubmission, { loading }] = useMutation(CREATE_USER);
+
+  if (loading) {
+    return (
+      <div className='App'>
+        <header className='App-header'>
+          <ClipLoader />
+        </header>
+      </div>
+    );
+  }
+
+  const userMutation = async (
+    name: string,
+    email: string,
+    password: string,
+    phone: string,
+    birthDate: string,
+    role: string,
+  ) => {
+    if (newUserValidation(name, email, password, phone, birthDate, role)) {
+
+      try {
+        await userSubmission({
+          variables: {
+            data: {
+              name: name,
+              email: email,
+              phone: phone,
+              birthDate: birthDate,
+              password: password,
+              role: role
+            }
+          }
+        });
+        return true;
+      } catch (error) {
+        alert(error.message);
+        return false;
+      }
+    }
+  };
+
+  async function handleSubmit(e: any) {
     e.preventDefault();
-    newUserValidation(name, email, password, phone, birthDate, role);
+    if (await userMutation(name, email, password, phone, birthDate, role)) {
+      history.push('/userslist');
+    }
   }
 
   return (
