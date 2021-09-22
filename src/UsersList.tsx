@@ -57,6 +57,10 @@ export default function usersList() {
     history.push('/newuser');
   }
 
+  function handleDetailClick(){
+    history.push('/details');
+  }
+
   return (
     <div className='App'>
       <header className='App-header'>
@@ -67,7 +71,7 @@ export default function usersList() {
             <th>E-mail</th>
           </tr>
           {totalData.map((user) => (
-            <tr key={user.id}>
+            <tr key={user.id} onClick={handleDetailClick}>
               <td>{user.name}</td>
               <td>{user.email}</td>
             </tr>
