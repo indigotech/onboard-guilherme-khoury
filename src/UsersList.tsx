@@ -11,7 +11,9 @@ import AddIcon from '@mui/icons-material/Add';
 const limit = 5;
 const initialPage = 0;
 
-export default function usersList() {
+export let userId = 0;
+
+function usersList() {
   const [currentPage, setCurrentPage] = useState(initialPage);
   const offset = currentPage * limit;
   const { loading, error, data, fetchMore } = useQuery(USERS_QUERY, {
@@ -57,7 +59,8 @@ export default function usersList() {
     history.push('/newuser');
   }
 
-  function handleDetailClick(){
+  const handleDetailClick = (id:number) => {
+    userId = id;
     history.push('/details');
   }
 
@@ -71,7 +74,7 @@ export default function usersList() {
             <th>E-mail</th>
           </tr>
           {totalData.map((user) => (
-            <tr key={user.id} onClick={handleDetailClick}>
+            <tr key={user.id} onClick={() => handleDetailClick(user.id)}>
               <td>{user.name}</td>
               <td>{user.email}</td>
             </tr>
@@ -95,3 +98,5 @@ export default function usersList() {
     </div>
   );
 }
+
+export default usersList;
