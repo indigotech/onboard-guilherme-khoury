@@ -1,3 +1,5 @@
+import { UserData } from './AddUserScreen';
+
 const loginPattern = /\S+@\S+\.com/;
 const passwordPattern1 = /\S*[A-Za-z]+\S*\d+\S*/;
 const passwordPattern2 = /\S*\d+\S*[A-Za-z]+\S*/;
@@ -28,25 +30,18 @@ export const loginValidation = (login: string, password: string) => {
 const emailPattern = /\S+@\S+\.com/;
 const alertMessage = 'Por favor, preencha todos os campos!';
 
-export const newUserValidation = (
-  name: string,
-  email: string,
-  password: string,
-  phone: string,
-  birthDate: string,
-  role: string,
-) => {
-  if (!name || !email || !password || !phone || !birthDate || !role) {
+export const newUserValidation = (data: UserData) => {
+  if (!data.name || !data.email || !data.password || !data.phone || !data.birthDate || !data.role) {
     alert(alertMessage);
     return false;
   }
 
-  if (email.match(emailPattern) === null) {
+  if (data.email.match(emailPattern) === null) {
     alert('Por favor, preencha o campo E-mail com o formato ####@####.com');
     return false;
   }
 
-  if (phone.length < 8) {
+  if (data.phone.length < 8) {
     alert('Por favor, preenche com um número de telefone válido!');
     return false;
   }

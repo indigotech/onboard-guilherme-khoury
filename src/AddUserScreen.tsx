@@ -5,13 +5,24 @@ import { CREATE_USER } from './AddUserMutation';
 import { newUserValidation } from './Validations';
 import { useHistory } from 'react-router-dom';
 
+export interface UserData {
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  birthDate: string;
+  role: string;
+}
+
 export default function newUser() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const [birthDate, setBirthDate] = useState('');
-  const [role, setRole] = useState('');
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    password: '',
+    phone: '',
+    birthDate: '',
+    role: '',
+  });
 
   const todayDate = new Date();
   const maxDate = todayDate.toISOString().split('T')[0];
@@ -29,28 +40,13 @@ export default function newUser() {
     );
   }
 
-  const userMutation = async (
-    name: string,
-    email: string,
-    password: string,
-    phone: string,
-    birthDate: string,
-    role: string,
-  ) => {
-    if (newUserValidation(name, email, password, phone, birthDate, role)) {
-
+  const userMutation = async (user: UserData) => {
+    if (newUserValidation(user)) {
       try {
         await userSubmission({
           variables: {
-            data: {
-              name: name,
-              email: email,
-              phone: phone,
-              birthDate: birthDate,
-              password: password,
-              role: role
-            }
-          }
+            data: user,
+          },
         });
         return true;
       } catch (error) {
@@ -60,9 +56,16 @@ export default function newUser() {
     }
   };
 
+  const handleInputChange = (event: { target: { id: string; value: string } }) => {
+    setUser({
+      ...user,
+      [event.target.id]: event.target.value,
+    });
+  };
+
   async function handleSubmit(e: any) {
     e.preventDefault();
-    if (await userMutation(name, email, password, phone, birthDate, role)) {
+    if (await userMutation(user)) {
       history.push('/userslist');
     }
   }
@@ -74,27 +77,27 @@ export default function newUser() {
         <form className='Add-user'>
           <div>
             <label className='form-label'>Nome:</label>
-            <input type='text' id='name' onChange={(e) => setName(e.target.value)} />
+            <input type='text' id='name' onChange={handleInputChange} />
           </div>
           <div>
             <label className='form-label'>E-mail:</label>
-            <input type='email' id='email' onChange={(e) => setEmail(e.target.value)} placeholder='####@####.com' />
+            <input type='email' id='email' onChange={handleInputChange} placeholder='####@####.com' />
           </div>
           <div>
             <label className='form-label'>Senha:</label>
-            <input type='password' id='password' onChange={(e) => setPassword(e.target.value)} />
+            <input type='password' id='password' onChange={handleInputChange} />
           </div>
           <div>
             <label className='form-label'>Telefone:</label>
-            <input type='number' id='phone' onChange={(e) => setPhone(e.target.value)} />
+            <input type='number' id='phone' onChange={handleInputChange} />
           </div>
           <div>
             <label className='form-label'>Data de Nascimento:</label>
-            <input type='date' id='birthDate' max={maxDate} onChange={(e) => setBirthDate(e.target.value)} />
+            <input type='date' id='birthDate' max={maxDate} onChange={handleInputChange} />
           </div>
           <div>
             <label className='form-label'> Função:</label>
-            <select id='role' onChange={(e) => setRole(e.target.value)}>
+            <select id='role' onChange={handleInputChange}>
               <option value='admin'>Administrador</option>
               <option value='user'>Usuário</option>
             </select>
