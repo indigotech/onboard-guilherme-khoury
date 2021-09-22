@@ -15,11 +15,7 @@ const authenticationLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-<<<<<<< HEAD
       authorization: token ?? '',
-=======
-      authorization: token ? `${token}` : '',
->>>>>>> ba64e91f... Formatação
     },
   };
 });

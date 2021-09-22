@@ -36,12 +36,7 @@ export const newUserValidation = (
   birthDate: string,
   role: string,
 ) => {
-  if (name === '') {
-    alert(alertMessage);
-    return false;
-  }
-
-  if (email === '') {
+  if (!name || !email || !password || !phone || !birthDate || !role) {
     alert(alertMessage);
     return false;
   }
@@ -51,28 +46,8 @@ export const newUserValidation = (
     return false;
   }
 
-  if (password === '') {
-    alert(alertMessage);
-    return false;
-  }
-
-  if (phone === '') {
-    alert(alertMessage);
-    return false;
-  }
-
   if (phone.length < 8) {
     alert('Por favor, preenche com um número de telefone válido!');
-    return false;
-  }
-
-  if (birthDate === '') {
-    alert(alertMessage);
-    return false;
-  }
-
-  if (role === '') {
-    alert(alertMessage);
     return false;
   }
 
