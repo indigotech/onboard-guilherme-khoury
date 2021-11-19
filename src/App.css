@@ -48,6 +48,22 @@
   padding: 10px;
 }
 
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.pagination a {
+  padding: 10px;
+}
+
+.form-label{
+  padding-right: 15px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

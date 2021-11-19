@@ -4,6 +4,9 @@ import './App.css';
 import { USERS_QUERY } from './UsersQuery';
 import ReactPaginate from 'react-paginate';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { useHistory } from 'react-router-dom';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 const limit = 5;
 const initialPage = 0;
@@ -17,12 +20,13 @@ export default function usersList() {
       limit: limit,
     },
   });
+  const history = useHistory();
 
   if (loading) {
     return (
-      <div className="App">
-        <header className="App-header">
-          <ClipLoader/>
+      <div className='App'>
+        <header className='App-header'>
+          <ClipLoader />
         </header>
       </div>
     );
@@ -49,6 +53,10 @@ export default function usersList() {
     }
   }
 
+  function handleAddClick() {
+    history.push('/newuser');
+  }
+
   return (
     <div className='App'>
       <header className='App-header'>
@@ -65,6 +73,9 @@ export default function usersList() {
             </tr>
           ))}
         </table>
+        <Fab onClick={handleAddClick} aria-label='add' size='medium' color='secondary'>
+          <AddIcon />
+        </Fab>
         <ReactPaginate
           previousLabel={'← Previous'}
           nextLabel={'Next →'}
